@@ -17,3 +17,6 @@ C:\Users\wondawon\source\repos\mvvmTest\mvvmTest\obj\Debug\mvvmTest.csproj.Gener
 C:\Users\wondawon\source\repos\mvvmTest\mvvmTest\obj\Debug\mvvmTest.csproj.CoreCompileInputs.cache
 C:\Users\wondawon\source\repos\mvvmTest\mvvmTest\obj\Debug\mvvmTest.exe
 C:\Users\wondawon\source\repos\mvvmTest\mvvmTest\obj\Debug\mvvmTest.pdb
+C:\Users\wondawon\source\repos\mvvmTest\mvvmTest\bin\Debug\MQTTnet.dll
+C:\Users\wondawon\source\repos\mvvmTest\mvvmTest\bin\Debug\MQTTnet.xml
+C:\Users\wondawon\source\repos\mvvmTest\mvvmTest\obj\Debug\mvvmTest.csproj.CopyComplete
