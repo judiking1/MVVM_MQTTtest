@@ -1,0 +1,18 @@
+﻿<Window x:Class="mvvmTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:mvvmTest"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10" VerticalAlignment="Top">
+            <Button Content="Publish" Width="100" Height="30" Command="{Binding ShowPublishPageCommand}" Margin="10"/>
+            <Button Content="Subscribe" Width="100" Height="30" Command="{Binding ShowSubscribePageCommand}" Margin="10"/>
+        </StackPanel>
+
+        <ContentControl Content="{Binding CurrentPage}" Margin="0,60,0,0" Width="780" Height="320" HorizontalAlignment="Center"/>
+
+    </Grid>
+</Window>
