@@ -4,15 +4,15 @@
 exe
 C#
 .cs
-C:\VisualStudio\mvvmTest\mvvmTest\obj\Debug\
+C:\VisualStudio\mvvmTest\mvvmTest\obj\Release\
 mvvmTest
 none
 false
-DEBUG;TRACE
+TRACE
 C:\VisualStudio\mvvmTest\mvvmTest\App.xaml
 3914952682
 
-121883319849
+11-329558829
 142057720278
 MainWindow.xaml;View\PublishPage.xaml;View\SubscribePage.xaml;
 

@@ -15,11 +15,11 @@
                     <ColumnDefinition Width="5*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Text="" Margin="4 0 10 0" VerticalAlignment="Top" Height="20" Grid.Column="0"/>
-                <Button Content="Do Publish" Grid.Column="1"></Button>
+                <TextBox Text="{Binding PublishTopic}" Margin="4 0 10 0" VerticalAlignment="Top" Height="20" Grid.Column="0"/>
+                <Button Content="Do Publish" Command="{Binding PublishCommand}" Grid.Column="1"></Button>
             </Grid>
             <Label Content="Message" Margin="0 10 0 0"/>
-            <RichTextBox Margin="4" Height="200"></RichTextBox>
+            <TextBox Text="{Binding PublishMessage}" Margin="4" Height="200"></TextBox>
         </StackPanel>
     </Grid>
 </UserControl>

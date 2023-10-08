@@ -11,8 +11,6 @@
             <Button Content="Publish" Width="100" Height="30" Command="{Binding ShowPublishPageCommand}" Margin="10"/>
             <Button Content="Subscribe" Width="100" Height="30" Command="{Binding ShowSubscribePageCommand}" Margin="10"/>
         </StackPanel>
-
         <ContentControl Content="{Binding CurrentPage}" Margin="0,60,0,0" Width="780" Height="320" HorizontalAlignment="Center"/>
-
     </Grid>
 </Window>

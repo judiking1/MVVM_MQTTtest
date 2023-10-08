@@ -1,19 +1,19 @@
 ﻿mvvmTest
 
 
-winexe
+exe
 C#
 .cs
-C:\Users\wondawon\source\repos\mvvmTest\mvvmTest\obj\Debug\
+C:\VisualStudio\mvvmTest\mvvmTest\obj\Debug\
 mvvmTest
 none
 false
 DEBUG;TRACE
-C:\Users\wondawon\source\repos\mvvmTest\mvvmTest\App.xaml
+C:\VisualStudio\mvvmTest\mvvmTest\App.xaml
 3914952682
 
 11-329558829
-14-1754794887
+142057720278
 MainWindow.xaml;View\PublishPage.xaml;View\SubscribePage.xaml;
 
 False
