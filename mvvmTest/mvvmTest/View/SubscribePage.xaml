@@ -25,11 +25,22 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <Label Content="Topic List" Margin="0 10 0 0"/>
-                    <ListBox ItemsSource="{Binding TopicList}" Margin="4" Height="200"/>
+                    <ListBox ItemsSource="{Binding TopicList}" SelectedItem="{Binding SelectedTopic}" Margin="4" Height="200"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <Label Content="Message" Margin="0 10 0 0"/>
-                    <ListBox Margin="4" Height="200"/>
+                    <ListBox ItemsSource="{Binding CurrentTopicMessages}" Margin="4" Height="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="False">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="MaxHeight" Value="Infinity"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" MaxWidth="560"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </StackPanel>
             </Grid>
         </StackPanel>

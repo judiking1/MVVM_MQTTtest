@@ -19,7 +19,7 @@
                 <Button Content="Do Publish" Command="{Binding PublishCommand}" Grid.Column="1"></Button>
             </Grid>
             <Label Content="Message" Margin="0 10 0 0"/>
-            <TextBox Text="{Binding PublishMessage}" Margin="4" Height="200"></TextBox>
+            <TextBox Text="{Binding PublishMessage}" Margin="4" Height="200" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
         </StackPanel>
     </Grid>
 </UserControl>

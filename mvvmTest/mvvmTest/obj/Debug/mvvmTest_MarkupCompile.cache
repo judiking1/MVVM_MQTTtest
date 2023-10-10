@@ -4,16 +4,16 @@
 exe
 C#
 .cs
-C:\VisualStudio\mvvmTest\mvvmTest\obj\Debug\
+C:\Users\kp25011\Source\Repos\MVVM_MQTTtest\mvvmTest\mvvmTest\obj\Debug\
 mvvmTest
 none
 false
 DEBUG;TRACE
-C:\VisualStudio\mvvmTest\mvvmTest\App.xaml
+C:\Users\kp25011\Source\Repos\MVVM_MQTTtest\mvvmTest\mvvmTest\App.xaml
 3914952682
 
 11-329558829
-142057720278
+141390323017
 MainWindow.xaml;View\PublishPage.xaml;View\SubscribePage.xaml;
 
 False

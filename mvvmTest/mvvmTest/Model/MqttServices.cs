@@ -1,5 +1,6 @@
 ﻿using MQTTnet.Client;
 using MQTTnet;
+using MQTTnet.Packets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,14 +8,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MQTTnet.Server;
+using System.Collections.ObjectModel;
 
 namespace mvvmTest.Model
 {
     public class MqttServices
     {
         private MqttFactory mqttFactory;
-        private IMqttClient _mqttClient;
+        public IMqttClient _mqttClient;
         private MqttClientOptions _mqttOptions;
+        public event Action<string, string> MessageReceived;
         public MqttServices()
         {
             mqttFactory = new MqttFactory();
@@ -22,6 +25,14 @@ namespace mvvmTest.Model
         }
         public async Task ConnectAsync(string host, int port)
         {
+            _mqttClient.ApplicationMessageReceivedAsync += e =>
+            {
+                Console.WriteLine("Received application message.");
+                var receivedTopic = e.ApplicationMessage.Topic;
+                var receivedMessage = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+                MessageReceived?.Invoke(receivedTopic, receivedMessage);
+                return Task.CompletedTask;
+            };
             // 연결 옵션 설정
             _mqttOptions = new MqttClientOptionsBuilder()
                 .WithTcpServer(host, port)
@@ -33,6 +44,14 @@ namespace mvvmTest.Model
         }
         public async Task ConnectAsync(string host)
         {
+            _mqttClient.ApplicationMessageReceivedAsync += e =>
+            {
+                Console.WriteLine("Received application message.");
+                var receivedTopic = e.ApplicationMessage.Topic;
+                var receivedMessage = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+                MessageReceived?.Invoke(receivedTopic, receivedMessage);
+                return Task.CompletedTask;
+            };
             // 연결 옵션 설정
             _mqttOptions = new MqttClientOptionsBuilder()
                 .WithTcpServer(host)
@@ -67,6 +86,5 @@ namespace mvvmTest.Model
 
             Console.WriteLine("MQTT client subscribed to topic.");
         }
-       
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MQTTnet.Client;
+using MQTTnet.Server;
 using mvvmTest.Model;
 using mvvmTest.Utilities;
 using mvvmTest.View;
@@ -17,15 +18,48 @@ namespace mvvmTest.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private MqttServices _mqttService;
+        private readonly MqttServices _mqttService;
+        private readonly object _publishPage;
+        private readonly object _subscribePage;
         private object _currentPage;
-        private readonly object _publishPage = new PublishPage();
-        private readonly object _SubscribePage = new SubscribePage();
+        private string _selectedTopic;
+        private Dictionary<string, ObservableCollection<string>> messagesByTopic = new Dictionary<string, ObservableCollection<string>>();
+        private ObservableCollection<string> _selectedTopicMessages;
+
+        public MainViewModel()
+        {
+            _mqttService = new MqttServices();
+            _publishPage = new PublishPage();
+            _subscribePage = new SubscribePage();
+            CurrentPage = _publishPage;
+            SetupCommands();
+            SetupMqttService();
+            MqttConnect();
+        }
+
         public string PublishTopic { get; set; }
         public string PublishMessage { get; set; }
         public string SubscribeTopic { get; set; }
         public ObservableCollection<string> TopicList { get; } = new ObservableCollection<string>();
-        public ObservableCollection<string> ReceivedMessages { get; } = new ObservableCollection<string>();
+        public string SelectedTopic
+        {
+            get { return _selectedTopic;}
+            set 
+            { 
+                _selectedTopic = value;
+                CurrentTopicMessages = messagesByTopic[_selectedTopic];
+                OnPropertyChanged(nameof(SelectedTopic));
+            }
+        }
+        public ObservableCollection<string> CurrentTopicMessages
+        {
+            get => _selectedTopicMessages;
+            set
+            {
+                _selectedTopicMessages = value;
+                OnPropertyChanged(nameof(CurrentTopicMessages));
+            }
+        }
         public object CurrentPage
         {
             get { return _currentPage; }
@@ -35,26 +69,39 @@ namespace mvvmTest.ViewModel
                 OnPropertyChanged(nameof(CurrentPage));
             }
         }
-        public ICommand ShowPublishPageCommand { get; }
-        public ICommand ShowSubscribePageCommand { get; }
-        public ICommand PublishCommand { get; }
-        public ICommand SubscribeCommand { get; }
-
-        public MainViewModel()
+        public ICommand ShowPublishPageCommand { get; private set; }
+        public ICommand ShowSubscribePageCommand { get; private set; }
+        public ICommand PublishCommand { get; private set; }
+        public ICommand SubscribeCommand { get; private set; }
+        private void SetupCommands()
         {
-            _mqttService = new MqttServices();
-            MqttConnect();
-            CurrentPage = _publishPage;
             ShowPublishPageCommand = new RelayCommand(() => CurrentPage = _publishPage);
-            ShowSubscribePageCommand = new RelayCommand(() => CurrentPage = _SubscribePage);
+            ShowSubscribePageCommand = new RelayCommand(() => CurrentPage = _subscribePage);
             PublishCommand = new RelayCommand(DoPublish);
             SubscribeCommand = new RelayCommand(DoSubscribe);
         }
+        private void SetupMqttService()
+        {
+            _mqttService.MessageReceived += (topic, message) =>
+            {
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    if (!messagesByTopic.ContainsKey(topic))
+                    {
+                        messagesByTopic[topic] = new ObservableCollection<string>();
+                        TopicList.Add(topic);
+                    }
+                    messagesByTopic[topic].Add(message);
+                    Console.WriteLine($"Topic: {topic}, Message: {message}");
+                });
+            };
+        }
+
         public async void MqttConnect()
         {
             try
             {
-                await _mqttService.ConnectAsync("broker.hivemq.com");
+               await _mqttService.ConnectAsync("broker.hivemq.com");
             }
             catch (Exception ex)
             {
@@ -72,18 +119,13 @@ namespace mvvmTest.ViewModel
         {
             if (!string.IsNullOrEmpty(SubscribeTopic))
             {
-                await _mqttService.SubscribeAsync(SubscribeTopic);
-                TopicList.Add(SubscribeTopic);
+                if (!messagesByTopic.ContainsKey(SubscribeTopic))
+                {
+                    await _mqttService.SubscribeAsync(SubscribeTopic);
+                    messagesByTopic[SubscribeTopic] = new ObservableCollection<string>();
+                    TopicList.Add(SubscribeTopic);
+                }
             }
-        }
-        public Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
-        {
-            Console.WriteLine("Message received");
-            var receivedMessage = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-            var topic = e.ApplicationMessage.Topic;
-            Console.WriteLine($"Topic: {topic}, Message: {receivedMessage}");
-
-            return Task.CompletedTask;
         }
     }
 }
